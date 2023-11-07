@@ -16,7 +16,7 @@ How it works:
       - Users in the same room could generate a plot that shows the estimated BAC of all the users in the room.
       - The rooms could be either public, where they are listed on the website, or private, where only users that know the keyword can join.
    
-The point of this project is not to encourage irresponsible drinking, but to act as a coding exercise for myself. I don't recommend anyomne to use this application to make actual decisions concerning their blood alcohol concentration, as results might be inaccurate. There are various more reliable BAC calculators online (eg. the one at päihdelinkki).
+The point of this project is not to encourage irresponsible drinking, but to act as a coding exercise for myself. I don't recommend anyone to use this application to make actual decisions concerning their blood alcohol concentration, as results might be inaccurate. There are various more reliable BAC calculators online (eg. the one at päihdelinkki).
 
 
 This project was inspired by the "blakkisvuohi" project by ultsi: https://gitlab.com/ultsi-projects/blakkisvuohi
