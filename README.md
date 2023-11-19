@@ -20,3 +20,39 @@ The point of this project is not to encourage irresponsible drinking, but to act
 
 
 This project was inspired by the "blakkisvuohi" project by ultsi: https://gitlab.com/ultsi-projects/blakkisvuohi
+
+## Current state of the project
+
+- Users can create an account and log in to the application
+- Users can choose drinks from a list, which will then be added to the database with a timetamp
+- Users can list the drinks that they have chosen with their respective timestamps
+- Users can log out from the application
+
+  ## How to test the application locally
+
+* Python and postgresql are required
+* Create `src/.env` file
+* Set `DATABASE_URL` to the local postgresql database address
+* SET `SECRET_KEY` to a secret key
+
+* Next, start the virtual evironment with the following:
+  ```
+  python3 -m venv venv
+  source venv/bin/activate
+  ```
+* Install all dependencies:
+  ```
+  pip install -r requirements.txt
+  ```
+* Specify the schema of the database:
+  ```
+  psql < schema.sql
+  ```
+* Start the application:
+  ```
+  cd src
+  flask run
+  ```
+
+  
+  
