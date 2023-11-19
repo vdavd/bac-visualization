@@ -1,0 +1,13 @@
+<p>Create a new account</p>
+<form action="/register" method="POST">
+<p>Username:<br>
+<input type="text" name="username"></p>
+<p>Password:<br>
+<input type="password" name="password1"></p>
+<p>Type password again:<br>
+<input type="password" name="password2"></p>
+<input type="submit" value="Create account"> <br>
+</form>
+<a href="/">Return to front page</a>
+<br>
+{% extends "flash.html" %}

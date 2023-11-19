@@ -1,0 +1,19 @@
+
+{% if session.username %}
+<p>Logged in as {{ session.username }}</p>
+<a href="/new_drink">Add a drink</a>
+<a href="/list_drinks">List my drinks</a>
+<a href="/logout">Log out</a>
+{% else %}
+<form action="/login" method="POST">
+<p>Username:<br>
+<input type="text" name="username"></p>
+<p>Password:<br>
+<input type="password" name="password"></p>
+<input type="submit" value="Login"> 
+</form>
+<a href="/new_account">Create an account</a>
+{% endif %}
+<br>
+<br>
+{% extends "flash.html" %}

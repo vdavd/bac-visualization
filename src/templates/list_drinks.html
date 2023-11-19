@@ -1,0 +1,7 @@
+
+Drinks of user {{session["username"]}}: <br>
+{% for juoma in juomat %}
+<li> {{ juoma.drink_name }}, {{ juoma.drink_time.strftime("%Y-%m-%d, %H:%M:%S") }}
+{% endfor %}
+<br>
+<a href="/">Return to front page</a>
