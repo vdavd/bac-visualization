@@ -24,7 +24,7 @@ This project was inspired by the "blakkisvuohi" project by ultsi: https://gitlab
 ## Current state of the project
 
 - Users can create an account and log in to the application
-- Users can choose drinks from a list, which will then be added to the database with a timetamp
+- Users can choose drinks from a list, which will then be added to the database with a timestamp
 - Users can list the drinks that they have chosen with their respective timestamps
 - Users can log out from the application
 
