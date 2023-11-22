@@ -27,6 +27,9 @@ This project was inspired by the "blakkisvuohi" project by ultsi: https://gitlab
 - Users can choose drinks from a list, which will then be added to the database with a timestamp
 - Users can list the drinks that they have chosen with their respective timestamps
 - Users can log out from the application
+- Users can create rooms
+- Users can join rooms using the room name
+- Users can view rooms that they ave joined. The rooms contain a list of their members
 
   ## How to test the application locally
 
