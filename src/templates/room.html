@@ -1,0 +1,10 @@
+This is room: {{room_members[0].room_name}} <br>
+<br>
+Here will be the BAC plot for the following users:
+<br>
+{% for member in room_members %}
+<li> {{member.username}} 
+{% endfor %}
+</li> 
+<br>
+<a href="/rooms">Return to Rooms</a>

@@ -1,6 +1,8 @@
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS choices CASCADE;
 DROP TABLE IF EXISTS drinks CASCADE;
+DROP TABLE IF EXISTS rooms CASCADE;
+DROP TABLE IF EXISTS members CASCADE;
 
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
@@ -19,6 +21,19 @@ CREATE TABLE IF NOT EXISTS drinks (
     user_id INTEGER REFERENCES users,
     drink_id INTEGER REFERENCES choices,
     drink_time TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS rooms (
+    id SERIAL PRIMARY KEY,
+    owner_id INTEGER REFERENCES users,
+    room_name TEXT UNIQUE CHECK(room_name IS NOT NULL AND length(room_name) > 2)
+);
+
+CREATE TABLE IF NOT EXISTS members (
+    id SERIAL PRIMARY KEY,
+    room_id INTEGER REFERENCES rooms,
+    member_id INTEGER REFERENCES users,
+    UNIQUE (room_id, member_id)
 );
 
 INSERT INTO choices (drink_name, alcohol_content) VALUES ('Beer', 12);
