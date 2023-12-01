@@ -1,0 +1,17 @@
+<p>Profile of user {{ session.username }}</p>
+
+<p>Sex: {{ user_info.sex }}</p>
+
+<p>Weight: {{user_info.user_weight}}</p>
+<form action="/edit_profile" method="POST">
+<p>Sex: <br>
+<input type="radio" name="sex" value="male" checked> Male
+<input type="radio" name="sex" value="female"> Female</p>
+<p>Weight (kg): 
+<input type="text" name="weight", size="5"></p>
+<input type="submit" value="Submit"> 
+</form>
+<br>
+<a href="/">Return to front page</a>
+<br>
+{% extends "flash.html" %}

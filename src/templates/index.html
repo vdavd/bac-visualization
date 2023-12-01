@@ -1,8 +1,10 @@
 
 {% if session.username %}
 <p>Logged in as {{ session.username }}</p>
+<a href="/profile">My profile</a> <br>
 <a href="/new_drink">Add a drink</a> <br>
 <a href="/list_drinks">List my drinks</a> <br>
+<a href="/bac_plot">BAC plot</a> <br>
 <a href="/rooms">Rooms</a> <br>
 <a href="/logout">Log out</a> <br>
 {% else %}

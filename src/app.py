@@ -4,6 +4,7 @@ from flask import redirect, render_template, request, session, flash, abort
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import text
 from os import getenv
+import pandas as pd
 
 
 app = Flask(__name__)
@@ -90,18 +91,22 @@ def new_drink():
 @app.route("/add_drink", methods=["POST"])
 def add_drink():
     juoma = request.form["juoma"]
+    drink_time = request.form["drink_time"]
+    if not drink_time:
+        flash("Please choose a time and date")
+        return redirect("new_drink")
     sql = text("SELECT id FROM choices WHERE drink_name=:juoma")
     result = db.session.execute(sql, {"juoma":juoma})
     print(result)
     drink_id = result.fetchone()[0]
-    sql = text("INSERT INTO drinks (user_id, drink_id, drink_time) VALUES (:user_id, :drink_id, NOW())")
-    db.session.execute(sql, {"user_id":session["id"], "drink_id":drink_id})
+    sql = text("INSERT INTO drinks (user_id, drink_id, drink_time) VALUES (:user_id, :drink_id, :drink_time)")
+    db.session.execute(sql, {"user_id":session["id"], "drink_id":drink_id, "drink_time":drink_time})
     db.session.commit()
     return redirect("/")
 
 @app.route("/list_drinks")
 def list_drinks():
-    sql = text("SELECT c.drink_name, d.drink_time FROM drinks d INNER JOIN choices c ON c.id = d.drink_id WHERE d.user_id=:user_id ORDER BY d.id DESC")
+    sql = text("SELECT c.drink_name, d.drink_time FROM drinks d INNER JOIN choices c ON c.id = d.drink_id WHERE d.user_id=:user_id ORDER BY d.drink_time DESC")
     result = db.session.execute(sql, {"user_id":session["id"]})
     juomat = result.fetchall()
     return render_template("list_drinks.html", juomat=juomat)
@@ -171,3 +176,30 @@ def room(room_id):
     result = db.session.execute(sql, {"room_id":room_id})
     room_members = result.fetchall()
     return render_template("room.html", room_members = room_members)
+
+@app.route("/bac_plot")
+def bac_plot():
+    return render_template("bac_plot.html")
+
+@app.route("/profile")
+def profile():
+    sql = text("SELECT user_weight, sex FROM users WHERE id=:user_id")
+    result = db.session.execute(sql, {"user_id":session["id"]})
+    user_info = result.fetchone()
+    return render_template("profile.html", user_info = user_info)
+
+@app.route("/edit_profile", methods=["POST"])
+def edit_profile():
+    sex = request.form["sex"]
+    try:
+        weight = int(request.form["weight"])
+    except:
+        flash("Weight must be a number")
+        return redirect("/profile")
+    
+    sql = text("UPDATE users SET sex=:sex, user_weight=:weight WHERE id=:user_id")
+    db.session.execute(sql, {"sex":sex, "weight":weight, "user_id":session["id"]})
+    db.session.commit()
+
+    flash("Profile was updated")
+    return redirect("/profile")

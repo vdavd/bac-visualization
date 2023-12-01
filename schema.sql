@@ -7,7 +7,9 @@ DROP TABLE IF EXISTS members CASCADE;
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     username TEXT UNIQUE CHECK(username IS NOT NULL AND length(username) > 2),
-    password TEXT CHECK(password IS NOT NULL AND length(password) > 7)
+    password TEXT CHECK(password IS NOT NULL AND length(password) > 7),
+    user_weight INTEGER,
+    sex TEXT
 );
 
 CREATE TABLE IF NOT EXISTS choices (
