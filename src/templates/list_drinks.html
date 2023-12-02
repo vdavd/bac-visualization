@@ -1,7 +1,7 @@
 
 Drinks of user {{session["username"]}}: <br>
-{% for juoma in juomat %}
-<li> {{ juoma.drink_name }}, {{ juoma.drink_time.strftime("%Y-%m-%d, %H:%M:%S") }}
+{% for drink in user_drinks %}
+<li> {{ drink.drink_name }}, {{ drink.drink_time.strftime("%Y-%m-%d, %H:%M") }}
 {% endfor %}
 <br>
 <a href="/">Return to front page</a>
