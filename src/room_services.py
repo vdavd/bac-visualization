@@ -48,7 +48,7 @@ def check_permission(room_id):
         return False
     
 def list_members(room_id):
-    sql = text("SELECT u.username, r.room_name FROM rooms r INNER JOIN members m \
+    sql = text("SELECT u.id, u.username, r.room_name FROM rooms r INNER JOIN members m \
                ON r.id = m.room_id INNER JOIN users u ON m.member_id = u.id WHERE m.room_id=:room_id")
     result = db.session.execute(sql, {"room_id":room_id})
     return result.fetchall()

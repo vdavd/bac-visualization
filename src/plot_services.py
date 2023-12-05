@@ -66,6 +66,22 @@ def plot_bac(bac_df, time_now):
     plt.savefig(f"static/bacplot_user_{id}.png", dpi=400)
     plt.clf()
 
-    
+def plot_room_bac(bac_df, time_now, room_id):
+    time_now = datetime(time_now.year, time_now.month, time_now.day, time_now.hour)
+    xticks = [time_now + timedelta(hours=i) for i in range(-12, 13)]
+    try:
+        os.remove(f"static/bacplot_room_{room_id}.png")
+    except:
+        pass
+    sns.set_theme(style="whitegrid")
+    bac_plot = sns.lineplot(x="time", y="bac", hue="username", data=bac_df)
+    bac_plot.set_xlim(xticks[0], xticks[-1])
+    bac_plot.set_xticks(xticks)
+    bac_plot.set_xticklabels([x.hour for x in xticks])
+    plt.savefig(f"static/bacplot_room_{room_id}.png", dpi=400)
+    plt.clf()
+
+def concatenate_dataframes(dataframes):
+    return pd.concat(dataframes, ignore_index=True)
 
         

@@ -78,7 +78,7 @@ def add_drink():
 
 @app.route("/list_drinks")
 def list_drinks():
-    user_drinks = drink_services.get_user_drinks()
+    user_drinks = drink_services.get_user_drinks(session["id"])
     user_drinks = user_drinks[::-1]
     return render_template("list_drinks.html", user_drinks=user_drinks)
 
@@ -123,11 +123,18 @@ def room(room_id):
         abort(403)
 
     room_members = room_services.list_members(room_id)
-    return render_template("room.html", room_members = room_members)
+    members_dfs = []
+    for member in room_members:
+        member_drinks = drink_services.get_user_drinks(member.id)
+        member_df = plot_services.calculate_bac(member_drinks)
+        members_dfs.append(member_df[0])
+    members_bac_df = plot_services.concatenate_dataframes(members_dfs)
+    plot_services.plot_room_bac(members_bac_df, member_df[1], room_id)
+    return render_template("room.html", room_members = room_members, room_id=room_id)
 
 @app.route("/bac_plot")
 def bac_plot():
-    user_drinks = drink_services.get_user_drinks()
+    user_drinks = drink_services.get_user_drinks(session["id"])
     bac_df, time_now = plot_services.calculate_bac(user_drinks)
     plot_services.plot_bac(bac_df, time_now)
     return render_template("bac_plot.html")
