@@ -30,6 +30,8 @@ This project was inspired by the "blakkisvuohi" project by ultsi: https://gitlab
 - Users can create rooms
 - Users can join rooms using the room name
 - Users can view rooms that they ave joined. The rooms contain a list of their members
+- Users can input information about their age, sex, weight and height on the profile page (these are used for bac calculations)
+- Users can view their individual estimated bac curve
 
   ## How to test the application locally
 

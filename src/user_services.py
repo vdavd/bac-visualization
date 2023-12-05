@@ -42,11 +42,11 @@ def register(username, password):
         return login(username, password)
 
 def get_profile():
-    sql = text("SELECT user_weight, sex FROM users WHERE id=:user_id")
+    sql = text("SELECT user_weight, user_height, user_age, sex FROM users WHERE id=:user_id")
     result = db.session.execute(sql, {"user_id":session["id"]})
     return result.fetchone()
 
-def edit_profile(sex, weight):
-    sql = text("UPDATE users SET sex=:sex, user_weight=:weight WHERE id=:user_id")
-    db.session.execute(sql, {"sex":sex, "weight":weight, "user_id":session["id"]})
+def edit_profile(sex, weight, height, age):
+    sql = text("UPDATE users SET sex=:sex, user_weight=:weight, user_height=:height, user_age=:age WHERE id=:user_id")
+    db.session.execute(sql, {"sex":sex, "weight":weight, "height":height, "age":age, "user_id":session["id"]})
     db.session.commit()

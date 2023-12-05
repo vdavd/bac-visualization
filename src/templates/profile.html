@@ -2,16 +2,26 @@
 
 <p>Sex: {{ user_info.sex }}</p>
 
-<p>Weight: {{user_info.user_weight}}</p>
+<p>Weight: {{user_info.user_weight}} kg</p>
+
+<p>Height: {{user_info.user_height}} cm</p>
+
+<p>Age: {{user_info.user_age}} years</p>
+
 <form action="/edit_profile" method="POST">
 <p>Sex: <br>
 <input type="radio" name="sex" value="male" checked> Male
 <input type="radio" name="sex" value="female"> Female</p>
 <p>Weight (kg): 
 <input type="text" name="weight", size="5"></p>
+<p>Height (cm): 
+<input type="text" name="height", size="5"></p>
+<p>Age (years): 
+<input type="text" name="age", size="5"></p>
 <input type="submit" value="Submit"> 
 </form>
 <br>
 <a href="/">Return to front page</a>
 <br>
+
 {% extends "flash.html" %}

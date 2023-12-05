@@ -5,6 +5,7 @@ from db import db
 import user_services
 import drink_services
 import room_services
+import plot_services
 
 @app.route("/")
 def index():
@@ -77,7 +78,8 @@ def add_drink():
 
 @app.route("/list_drinks")
 def list_drinks():
-    user_drinks = drink_services.list_drinks()
+    user_drinks = drink_services.get_user_drinks()
+    user_drinks = user_drinks[::-1]
     return render_template("list_drinks.html", user_drinks=user_drinks)
 
 @app.route("/new_room", methods=["POST"])
@@ -125,6 +127,9 @@ def room(room_id):
 
 @app.route("/bac_plot")
 def bac_plot():
+    user_drinks = drink_services.get_user_drinks()
+    bac_df, time_now = plot_services.calculate_bac(user_drinks)
+    plot_services.plot_bac(bac_df, time_now)
     return render_template("bac_plot.html")
 
 @app.route("/profile")
@@ -137,9 +142,11 @@ def edit_profile():
     sex = request.form["sex"]
     try:
         weight = int(request.form["weight"])
+        height = int(request.form["height"])
+        age = int(request.form["age"])
     except:
-        flash("Weight must be a number")
+        flash("Weight and height must be numbers")
         return redirect("/profile")
-    user_services.edit_profile(sex, weight)
+    user_services.edit_profile(sex, weight, height, age)
     flash("Profile was updated")
     return redirect("/profile")

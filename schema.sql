@@ -9,6 +9,8 @@ CREATE TABLE IF NOT EXISTS users (
     username TEXT UNIQUE CHECK(username IS NOT NULL AND length(username) > 2),
     password TEXT CHECK(password IS NOT NULL AND length(password) > 7),
     user_weight INTEGER,
+    user_height INTEGER,
+    user_age INTEGER,
     sex TEXT
 );
 
