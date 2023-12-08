@@ -1,3 +1,5 @@
+{% extends "layout.html" %}
+{% block content %}
 <form action="/add_drink" method="POST">
 Choose a drink:
 <select name="drink">
@@ -12,5 +14,4 @@ Date and time: <br>
 <input type="submit" value="Submit">
 </form>
 <br>
-<a href="/">Return to front page</a> <br>
-{% extends "flash.html" %}
+{% endblock %}

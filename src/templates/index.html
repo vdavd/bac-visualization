@@ -1,13 +1,59 @@
-
+{% extends "layout.html" %}
+{% block content %}
 {% if session.username %}
-<p>Logged in as {{ session.username }}</p>
-<a href="/profile">My profile</a> <br>
-<a href="/new_drink">Add a drink</a> <br>
-<a href="/list_drinks">List my drinks</a> <br>
-<a href="/bac_plot">BAC plot</a> <br>
-<a href="/rooms">Rooms</a> <br>
-<a href="/logout">Log out</a> <br>
+<style>
+    table, th, td {
+      border:1px solid black;
+      padding: 15px
+    }
+    </style>
+<div class="container">
+    <div class="row">
+      <div class="col-8">
+        <h2>My drinks</h2> <br>
+        {% if user_drinks[0].drink_name %}
+        <table>
+            <thead>
+              <tr>
+                <th colspan="1">Drink</th>
+                <th colspan="1">Date</th>
+                <th colspan="1">Time</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for drink in user_drinks %}
+              <tr>
+                <td>{{ drink.drink_name }}</td>
+                <td>{{ drink.drink_time.strftime("%Y-%m-%d") }}</td>
+                <td>{{drink.drink_time.strftime("%H:%M")}}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        No drinks
+        {% endif %}
+      </div>
+      <div class="col-4">
+        <h2>Add a drink</h2> <br>
+        <form action="/add_drink" method="POST">
+            Choose a drink:
+            <select name="drink">
+            <option value="Beer" selected> Beer
+            <option value="Wine"> Wine
+            <option value="Kossu"> Kossu
+            </select> <br>
+            <br>
+            Date and time: <br>
+            <input type="datetime-local" name="drink_time"> <br> 
+            <br>
+            <input type="submit" value="Submit">
+            </form>
+            <br>
+      </div>
+    </div>
 {% else %}
+<h2>Login</h2>
 <form action="/login" method="POST">
 <p>Username:<br>
 <input type="text" name="username"></p>
@@ -18,5 +64,4 @@
 <a href="/new_account">Create an account</a>
 {% endif %}
 <br>
-<br>
-{% extends "flash.html" %}
+{% endblock %}

@@ -1,4 +1,6 @@
-<p>Profile of user {{ session.username }}</p>
+{% extends "layout.html" %}
+{% block content %}
+<h3>{{ session.username }}'s profile</h3>
 
 <p>Sex: {{ user_info.sex }}</p>
 
@@ -21,7 +23,4 @@
 <input type="submit" value="Submit"> 
 </form>
 <br>
-<a href="/">Return to front page</a>
-<br>
-
-{% extends "flash.html" %}
+{% endblock %}

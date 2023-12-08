@@ -9,11 +9,15 @@ import plot_services
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    try:
+        user_drinks = drink_services.get_user_drinks(session["id"])
+        user_drinks = user_drinks[::-1]
+        return render_template("index.html", user_drinks=user_drinks)
+    except:
+        return render_template("index.html")
 
 @app.route("/login", methods=["POST"])
 def login():
-    
     username = request.form["username"]
     password = request.form["password"]
 
@@ -53,14 +57,11 @@ def register():
                   and password has to be 8 characters or longer")
             return redirect("/new_account")
         else:
-            return redirect("/account_created")
+            flash("Account creation ws succesful, please update your profile")
+            return redirect("/profile")
     else:
         flash("Passwords do not match")
         return redirect("/new_account")
-    
-@app.route("/account_created")
-def account_created():
-    return render_template("account_created.html")
 
 @app.route("/new_drink")
 def new_drink():
@@ -72,7 +73,7 @@ def add_drink():
     drink_time = request.form["drink_time"]
     if not drink_time:
         flash("Please choose a date and time")
-        return redirect("new_drink")
+        return redirect("/")
     drink_services.add_drink(drink, drink_time)
     return redirect("/")
 

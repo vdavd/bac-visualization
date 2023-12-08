@@ -36,15 +36,16 @@ def calculate_bac(user_drinks):
         if bac > 0:
             alc_eliminated += min(elimination_rate*0.1, bac)
         bac = 0
-        for drink in user_drinks:
-            if drink.drink_time < start_time or drink.drink_time > time:
-                continue
-            else:
-                time_difference = time - drink.drink_time
-                tn = time_difference.total_seconds()/3600
-                bac += (0.8*(drink.alcohol_content*(1-math.exp(-k*tn))))/q_value
-        bac -= alc_eliminated
-        bac = max(0, bac)
+        if user_drinks[0].drink_id:
+            for drink in user_drinks:
+                if drink.drink_time < start_time or drink.drink_time > time:
+                    continue
+                else:
+                    time_difference = time - drink.drink_time
+                    tn = time_difference.total_seconds()/3600
+                    bac += (0.8*(drink.alcohol_content*(1-math.exp(-k*tn))))/q_value
+            bac -= alc_eliminated
+            bac = max(0, bac)
         bac_df.loc[i] = [username, bac, time]
 
     return bac_df, time_now
@@ -59,11 +60,13 @@ def plot_bac(bac_df, time_now):
     except:
         pass
     sns.set_theme(style="whitegrid")
+    plt.figure(figsize=(8, 4.6))
     bac_plot = sns.lineplot(x="time", y="bac", hue="username", data=bac_df)
     bac_plot.set_xlim(xticks[0], xticks[-1])
     bac_plot.set_xticks(xticks)
     bac_plot.set_xticklabels([x.hour for x in xticks])
-    plt.savefig(f"static/bacplot_user_{id}.png", dpi=400)
+    sns.move_legend(bac_plot, "lower center", ncol=5, bbox_to_anchor=(0.5, 1), title=None, frameon=False)
+    plt.savefig(f"static/bacplot_user_{id}.png", bbox_inches="tight", dpi=150)
     plt.clf()
 
 def plot_room_bac(bac_df, time_now, room_id):
@@ -74,11 +77,13 @@ def plot_room_bac(bac_df, time_now, room_id):
     except:
         pass
     sns.set_theme(style="whitegrid")
+    plt.figure(figsize=(8, 4.6))
     bac_plot = sns.lineplot(x="time", y="bac", hue="username", data=bac_df)
     bac_plot.set_xlim(xticks[0], xticks[-1])
     bac_plot.set_xticks(xticks)
     bac_plot.set_xticklabels([x.hour for x in xticks])
-    plt.savefig(f"static/bacplot_room_{room_id}.png", dpi=400)
+    sns.move_legend(bac_plot, "lower center", ncol=5, bbox_to_anchor=(0.5, 1), title=None, frameon=False)
+    plt.savefig(f"static/bacplot_room_{room_id}.png", bbox_inches="tight", dpi=150)
     plt.clf()
 
 def concatenate_dataframes(dataframes):

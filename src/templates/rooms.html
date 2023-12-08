@@ -1,19 +1,28 @@
-<p>Create a new room</p>
-<form action="/new_room" method="POST">
-<p>Room name:<br>
-<input type="text" name="new_room"></p>
-<input type="submit" value="Create room"> <br>
-</form> <br>
-<p>Join a room</p>
-<form action="/join_room" method="POST">
-<p>Room name:<br>
-<input type="text" name="room_to_join"></p>
-<input type="submit" value="Join room"> <br>
-</form> <br>
-<p>My rooms:</p>
-{% for room in my_rooms %}
-<li><a href="/room/{{ room.room_id }}">{{room.room_name}}</a> <br>
-{% endfor %}
-</li> <br>
-<a href="/">Return to front page</a> <br>
-{% extends "flash.html" %}
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-8">
+      <h3>Create a new room</h3>
+      <form action="/new_room" method="POST">
+      <p>Room name:<br>
+      <input type="text" name="new_room"></p>
+      <input type="submit" value="Create room"> <br>
+      </form> <br>
+      <h3>Join a room</h3>
+      <form action="/join_room" method="POST">
+      <p>Room name:<br>
+      <input type="text" name="room_to_join"></p>
+      <input type="submit" value="Join room"> <br>
+      </form> <br>
+    </div>
+    <div class="col-4">
+      <h3>My rooms</h3>
+      {% for room in my_rooms %}
+      <li><a href="/room/{{ room.room_id }}">{{room.room_name}}</a> <br>
+      {% endfor %}
+      </li> <br>
+    </div>
+  </div>
+</div>
+{% endblock %}
