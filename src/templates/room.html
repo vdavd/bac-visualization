@@ -1,6 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
+{% if profile_state %}
 <h2>{{room_members[0].room_name}}</h2>
 <br>
 <img src="/static/bacplot_room_{{room_id}}.png"> <br>
+{% else %}
+<h3>Please update your profile to view this room's BAC plot</h3>
+{% endif %}
 {% endblock %}

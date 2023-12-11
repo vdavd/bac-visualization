@@ -6,13 +6,13 @@
       <h3>Create a new room</h3>
       <form action="/new_room" method="POST">
       <p>Room name:<br>
-      <input type="text" name="new_room"></p>
+      <input type="text" name="new_room" value="{{room_name_create}}" minlength="3" maxlength="20"></p>
       <input type="submit" value="Create room"> <br>
       </form> <br>
       <h3>Join a room</h3>
       <form action="/join_room" method="POST">
       <p>Room name:<br>
-      <input type="text" name="room_to_join"></p>
+      <input type="text" name="room_to_join" value="{{room_name_join}}"></p>
       <input type="submit" value="Join room"> <br>
       </form> <br>
     </div>

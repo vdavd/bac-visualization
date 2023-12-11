@@ -3,11 +3,11 @@
 <h3>Create a new account</h3>
 <form action="/register" method="POST">
 <p>Username:<br>
-<input type="text" name="username"></p>
+<input type="text" name="username" minlength="3" maxlength="20"></p>
 <p>Password:<br>
-<input type="password" name="password1"></p>
+<input type="password" name="password1" minength="8"></p>
 <p>Type password again:<br>
-<input type="password" name="password2"></p>
+<input type="password" name="password2" minlength="8"></p>
 <input type="submit" value="Create account"> <br>
 </form>
 <a href="/">Return to front page</a>

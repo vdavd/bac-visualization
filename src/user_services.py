@@ -46,6 +46,13 @@ def get_profile():
     result = db.session.execute(sql, {"user_id":session["id"]})
     return result.fetchone()
 
+def check_profile():
+    user_info = get_profile()
+    for info in user_info:
+        if not info:
+            return False
+    return True
+
 def edit_profile(sex, weight, height, age):
     sql = text("UPDATE users SET sex=:sex, user_weight=:weight, user_height=:height, user_age=:age WHERE id=:user_id")
     db.session.execute(sql, {"sex":sex, "weight":weight, "height":height, "age":age, "user_id":session["id"]})

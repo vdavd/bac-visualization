@@ -13,6 +13,8 @@ def check_room_name(room_name):
     return False
 
 def new_room(room_name):
+    if " " in room_name:
+        return False
     try:
         sql = text("INSERT INTO rooms (owner_id, room_name) VALUES (:owner_id, :new_room) RETURNING id")
         result = db.session.execute(sql, {"owner_id":session["id"], "new_room":room_name})

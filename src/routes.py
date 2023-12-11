@@ -94,7 +94,7 @@ def new_room():
             flash("Room creation was succesful")
             return redirect("/rooms")
         else:
-            flash("Room name is too short")
+            flash("Room name has to be 3 characters or longer and cannot contain whitespace characters")
             return redirect("/rooms")
         
 @app.route("/join_room", methods=["POST"])
@@ -123,6 +123,9 @@ def room(room_id):
     if not permission:
         abort(403)
 
+    profile_state = user_services.check_profile()
+    if not profile_state:
+        return render_template("room.html", profile_state = profile_state)
     room_members = room_services.list_members(room_id)
     members_dfs = []
     for member in room_members:
@@ -131,14 +134,18 @@ def room(room_id):
         members_dfs.append(member_df[0])
     members_bac_df = plot_services.concatenate_dataframes(members_dfs)
     plot_services.plot_room_bac(members_bac_df, member_df[1], room_id)
-    return render_template("room.html", room_members = room_members, room_id=room_id)
+    return render_template("room.html", room_members = room_members, room_id=room_id, 
+                           profile_state = profile_state)
 
 @app.route("/bac_plot")
 def bac_plot():
+    profile_state = user_services.check_profile()
+    if not profile_state:
+        return render_template("bac_plot.html", profile_state = profile_state)
     user_drinks = drink_services.get_user_drinks(session["id"])
     bac_df, time_now = plot_services.calculate_bac(user_drinks)
     plot_services.plot_bac(bac_df, time_now)
-    return render_template("bac_plot.html")
+    return render_template("bac_plot.html", profile_state=profile_state)
 
 @app.route("/profile")
 def profile():

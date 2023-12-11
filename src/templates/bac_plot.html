@@ -1,5 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
+{% if profile_state %}
 <h2>BAC plot of {{session.username}}</h2>
 <img src="/static/bacplot_user_{{session.id}}.png"> <br>
+{% else %}
+<h3>Please update your profile to view your BAC plot</h3>
+{% endif %}
 {% endblock %}
