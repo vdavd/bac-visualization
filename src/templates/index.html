@@ -39,9 +39,18 @@
         <form action="/add_drink" method="POST">
             Choose a drink:
             <select name="drink">
-            <option value="Beer" selected> Beer
-            <option value="Wine"> Wine
-            <option value="Kossu"> Kossu
+              <option value="Beer 4.7%, 0.33l" selected> Beer 4.7%, 0.33l
+              <option value="Beer 5.2%, 0.33l"> Beer 5.2%, 0.33l
+              <option value="Beer 4.7%, 0.5l"> Beer 4.7%, 0.5l
+              <option value="Beer 5.2%, 0.5l"> Beer 5.2%, 0.5l
+              <option value="Wine 12%, 12cl"> Wine 12%, 12cl
+              <option value="Wine 12%, 16cl"> Wine 12%, 16cl
+              <option value="Wine 12%, 24cl"> Wine 12%, 24cl
+              <option value="Liquor 38%, 4cl"> Liquor 38%, 4cl
+              <option value="Liquor 38%, 2cl"> Liquor 38%, 2cl
+              <option value="Liquor 40%, 4cl"> Liquor 40%, 4cl
+              <option value="Liquor 40%, 2cl"> Liquor 40%, 2cl
+              <option value="Desi 38%"> Desi 38%
             </select> <br>
             <br>
             Date and time: <br>
@@ -49,7 +58,28 @@
             <br>
             <input type="submit" value="Submit">
             </form>
-            <br>
+            <br><br><br>
+            <h2>Summary of drinks</h2> <br>
+            {% if drinks_summary %}
+            <table>
+              <thead>
+                <tr>
+                  <th colspan="1">Drink type</th>
+                  <th colspan="1">Count</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for drink in drinks_summary %}
+                <tr>
+                  <td>{{ drink[1] }}</td>
+                  <td>{{ drink[0] }}</td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+            {% else %}
+            No drinks
+            {% endif %}
       </div>
     </div>
 {% else %}

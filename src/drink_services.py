@@ -16,3 +16,9 @@ def get_user_drinks(user_id):
                choices c ON c.id=d.drink_id WHERE u.id=:user_id ORDER BY d.drink_time")
     result = db.session.execute(sql, {"user_id":user_id})
     return result.fetchall()
+
+def get_drinks_summary(user_id):
+    sql = text("SELECT COUNT(d.drink_id), c.category FROM drinks d LEFT JOIN choices c \
+               ON d.drink_id=c.id WHERE d.user_id=:user_id GROUP BY c.category")
+    result = db.session.execute(sql, {"user_id":user_id})
+    return result.fetchall()

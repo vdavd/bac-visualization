@@ -1,6 +1,5 @@
 from app import app
 from flask import redirect, render_template, request, session, flash, abort
-from sqlalchemy.sql import text
 from db import db
 import user_services
 import drink_services
@@ -12,7 +11,8 @@ def index():
     try:
         user_drinks = drink_services.get_user_drinks(session["id"])
         user_drinks = user_drinks[::-1]
-        return render_template("index.html", user_drinks=user_drinks)
+        drinks_summary = drink_services.get_drinks_summary(session["id"])
+        return render_template("index.html", user_drinks=user_drinks, drinks_summary=drinks_summary)
     except:
         return render_template("index.html")
 
@@ -165,3 +165,7 @@ def edit_profile():
     user_services.edit_profile(sex, weight, height, age)
     flash("Profile was updated")
     return redirect("/profile")
+
+@app.route("/info")
+def info():
+    return render_template("info.html")

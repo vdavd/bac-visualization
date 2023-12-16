@@ -17,7 +17,8 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS choices (
     id SERIAL PRIMARY KEY,
     drink_name TEXT,
-    alcohol_content INTEGER
+    category TEXT,
+    alcohol_content FLOAT
 );
 
 CREATE TABLE IF NOT EXISTS drinks (
@@ -40,6 +41,15 @@ CREATE TABLE IF NOT EXISTS members (
     UNIQUE (room_id, member_id)
 );
 
-INSERT INTO choices (drink_name, alcohol_content) VALUES ('Beer', 12);
-INSERT INTO choices (drink_name, alcohol_content) VALUES ('Wine', 12);
-INSERT INTO choices (drink_name, alcohol_content) VALUES ('Kossu', 12);
+INSERT INTO choices (drink_name, category, alcohol_content) VALUES ('Beer 4.7%, 0.33l', 'Beer', 12.2);
+INSERT INTO choices (drink_name, category, alcohol_content) VALUES ('Beer 5.2%, 0.33l', 'Beer', 13.5);
+INSERT INTO choices (drink_name, category, alcohol_content) VALUES ('Beer 4.7%, 0.5l', 'Beer', 18.5);
+INSERT INTO choices (drink_name, category, alcohol_content) VALUES ('Beer 5.2%, 0.5l', 'Beer', 20.5);
+INSERT INTO choices (drink_name, category, alcohol_content) VALUES ('Wine 12%, 12cl', 'Wine', 11.4);
+INSERT INTO choices (drink_name, category, alcohol_content) VALUES ('Wine 12%, 16cl', 'Wine', 15.1);
+INSERT INTO choices (drink_name, category, alcohol_content) VALUES ('Wine 12%, 24cl', 'Wine', 22.7);
+INSERT INTO choices (drink_name, category, alcohol_content) VALUES ('Liquor 38%, 4cl', 'Liquor', 12);
+INSERT INTO choices (drink_name, category, alcohol_content) VALUES ('Liquor 38%, 2cl', 'Liquor', 6);
+INSERT INTO choices (drink_name, category, alcohol_content) VALUES ('Liquor 40%, 4cl', 'Liquor', 12.6);
+INSERT INTO choices (drink_name, category, alcohol_content) VALUES ('Liquor 40%, 2cl', 'Liquor', 6.3);
+INSERT INTO choices (drink_name, category, alcohol_content) VALUES ('Desi 38%', 'Liquor', 30);
