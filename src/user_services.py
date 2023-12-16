@@ -1,8 +1,8 @@
-from db import db
+import secrets
 from flask import session, abort
 from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy.sql import text
-import secrets
+from db import db
 
 def login(username, password):
     sql = text("SELECT id, password FROM users WHERE username=:username")
@@ -18,31 +18,34 @@ def login(username, password):
             session["id"] = user.id
             session["csrf_token"] = secrets.token_hex(16)
             return True
-        else:
-            return False
-        
+        return False
+
 def logout():
     del session["username"]
     del session["id"]
     del session["csrf_token"]
 
-def check_username(username):
+def check_availability(username):
     sql = text("SELECT id FROM users WHERE username=:username")
     result = db.session.execute(sql, {"username":username})
-
     if result.fetchone():
         return False
     return True
 
+def check_spaces(username):
+    if " " in username:
+        return False
+    return True
+
 def register(username, password):
-        hash_value = generate_password_hash(password)
-        try:
-            sql = text("INSERT INTO users (username, password) VALUES (:username, :password)")
-            db.session.execute(sql, {"username":username, "password":hash_value})
-            db.session.commit()
-        except:
-            return False
-        return login(username, password)
+    hash_value = generate_password_hash(password)
+    try:
+        sql = text("INSERT INTO users (username, password) VALUES (:username, :password)")
+        db.session.execute(sql, {"username":username, "password":hash_value})
+        db.session.commit()
+    except:
+        return False
+    return login(username, password)
 
 def get_profile():
     sql = text("SELECT user_weight, user_height, user_age, sex FROM users WHERE id=:user_id")
@@ -57,8 +60,10 @@ def check_profile():
     return True
 
 def edit_profile(sex, weight, height, age):
-    sql = text("UPDATE users SET sex=:sex, user_weight=:weight, user_height=:height, user_age=:age WHERE id=:user_id")
-    db.session.execute(sql, {"sex":sex, "weight":weight, "height":height, "age":age, "user_id":session["id"]})
+    sql = text("UPDATE users SET sex=:sex, user_weight=:weight, \
+               user_height=:height, user_age=:age WHERE id=:user_id")
+    db.session.execute(sql, {"sex":sex, "weight":weight, "height":height, \
+                             "age":age, "user_id":session["id"]})
     db.session.commit()
 
 def check_token(csrf_token):

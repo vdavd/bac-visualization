@@ -1,6 +1,6 @@
-from db import db
 from flask import session
 from sqlalchemy.sql import text
+from db import db
 
 # check_room_name checks if room with a given name exists
 # returns room_id if the room exists, return False if not
@@ -9,14 +9,15 @@ def check_room_name(room_name):
     result = db.session.execute(sql, {"room_name":room_name})
     room_id = result.fetchone()
     if room_id:
-       return room_id[0]
+        return room_id[0]
     return False
 
 def new_room(room_name):
     if " " in room_name:
         return False
     try:
-        sql = text("INSERT INTO rooms (owner_id, room_name) VALUES (:owner_id, :new_room) RETURNING id")
+        sql = text("INSERT INTO rooms (owner_id, room_name) VALUES \
+                   (:owner_id, :new_room) RETURNING id")
         result = db.session.execute(sql, {"owner_id":session["id"], "new_room":room_name})
         room_id = result.fetchone()[0]
         sql = text("INSERT INTO members (room_id, member_id) VALUES (:room_id, :member_id)")
@@ -25,7 +26,7 @@ def new_room(room_name):
         return True
     except:
         return False
-    
+
 def join_room(room_id):
     try:
         sql = text("INSERT INTO members (room_id, member_id) VALUES (:room_id, :member_id)")
@@ -34,7 +35,7 @@ def join_room(room_id):
         return True
     except:
         return False
-    
+
 def list_rooms():
     sql = text("SELECT m.room_id, r.room_name FROM members m INNER JOIN rooms r \
                ON r.id = m.room_id WHERE m.member_id=:user_id")
@@ -46,11 +47,11 @@ def check_permission(room_id):
     result = db.session.execute(sql, {"room_id":room_id, "user_id":session["id"]})
     if result.fetchone():
         return True
-    else:
-        return False
-    
+    return False
+
 def list_members(room_id):
-    sql = text("SELECT u.id, u.username, r.room_name FROM rooms r INNER JOIN members m \
-               ON r.id = m.room_id INNER JOIN users u ON m.member_id = u.id WHERE m.room_id=:room_id")
+    sql = text("SELECT u.id, u.username, r.room_name FROM rooms r INNER JOIN \
+               members m ON r.id = m.room_id INNER JOIN users u ON m.member_id = u.id \
+               WHERE m.room_id=:room_id")
     result = db.session.execute(sql, {"room_id":room_id})
     return result.fetchall()

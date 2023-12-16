@@ -1,4 +1,23 @@
 {% extends "layout.html" %}
 {% block content %}
-Here will be some info about the app
+<div class="container">
+    <div class="row">
+      <div class="col-8">
+        <p>This web application is designed to estimate and visualize blood alchohol concentration (BAC). 
+        Calculations are based on the Watson formula, as described in the paper: "<i>Posey D, Mozayani 
+            A. The estimation of blood alcohol concentration : Widmark revisited.</i>" 
+            (DOI: <a href="https://doi.org/10.1385/fsmp:3:1:33">10.1385/FSMP:3:1:33</a>)</p>
+
+        <h3>How to use the app</h3>
+        <p>To begin using the app, update your information on the profile page (these are needed for the BAC
+        calculations). Then you can add drinks on the front page and view your estimated BAC plot. The BAC 
+        plot displays your estimated blood alcohol concentration in permilles as a function of time. Please note
+        that the plot only displays the past and coming 12 hours, so any drinks that fall outside this timeframe won't
+        be visible in the plot. </p>
+
+        <p>To use the room functionality, simply go to the rooms page and create a new room. Other users can join your room
+        by using the room name. The rooms contain a plot displaying the estimated BAC curves of all room members.</p>
+      </div>
+    </div>
+</div>
 {% endblock %}

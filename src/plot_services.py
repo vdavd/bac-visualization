@@ -1,11 +1,10 @@
-from db import db
+import math
+import os
+from datetime import datetime, timedelta
 from flask import session
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-from datetime import datetime, timedelta
-import math
-import os
 import matplotlib
 matplotlib.use('agg') # matplotlib crashes flask wihout this
 
@@ -66,8 +65,10 @@ def plot_bac(bac_df, time_now):
     bac_plot.set_xlim(xticks[0], xticks[-1])
     bac_plot.set_xticks(xticks)
     bac_plot.set_xticklabels([x.hour for x in xticks])
-    bac_plot.set(ylabel="Blood alcohol concentration (‰)", xlabel=f"Time (hours), {start_date} - {end_date}")
-    sns.move_legend(bac_plot, "lower center", ncol=5, bbox_to_anchor=(0.5, 1), title=None, frameon=False)
+    bac_plot.set(ylabel="Blood alcohol concentration (‰)", \
+                 xlabel=f"Time (hours), {start_date} - {end_date}")
+    sns.move_legend(bac_plot, "lower center", ncol=5, \
+                    bbox_to_anchor=(0.5, 1), title=None, frameon=False)
     plt.savefig(f"static/bacplot_user_{id}.png", bbox_inches="tight", dpi=150)
     plt.close("all")
 
@@ -86,12 +87,12 @@ def plot_room_bac(bac_df, time_now, room_id):
     bac_plot.set_xlim(xticks[0], xticks[-1])
     bac_plot.set_xticks(xticks)
     bac_plot.set_xticklabels([x.hour for x in xticks])
-    bac_plot.set(ylabel="Blood alcohol concentration (‰)", xlabel=f"Time (hours), {start_date} - {end_date}")
-    sns.move_legend(bac_plot, "lower center", ncol=5, bbox_to_anchor=(0.5, 1), title=None, frameon=False)
+    bac_plot.set(ylabel="Blood alcohol concentration (‰)", \
+                 xlabel=f"Time (hours), {start_date} - {end_date}")
+    sns.move_legend(bac_plot, "lower center", ncol=5, \
+                    bbox_to_anchor=(0.5, 1), title=None, frameon=False)
     plt.savefig(f"static/bacplot_room_{room_id}.png", bbox_inches="tight", dpi=150)
     plt.close("all")
 
 def concatenate_dataframes(dataframes):
     return pd.concat(dataframes, ignore_index=True)
-
-        

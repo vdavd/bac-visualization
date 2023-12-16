@@ -1,6 +1,5 @@
-from app import app
 from flask import redirect, render_template, request, session, flash, abort
-from db import db
+from app import app
 import user_services
 import drink_services
 import room_services
@@ -42,22 +41,26 @@ def register():
     password1 = request.form["password1"]
     password2 = request.form["password2"]
 
-    if not user_services.check_username(username):
+    if not user_services.check_availability(username):
         flash("Username is already taken")
+        return redirect("/new_account")
+
+    if not user_services.check_spaces(username):
+        flash("Username cannot contain whitespace characters")
         return redirect("/new_account")
     
     if len(password1) < 7 or len(username) < 3:
         flash("Username has to be 3 characters or longer \
               and password has to be 8 characters or longer")
         return redirect("/new_account")
-    
+
     if password1 == password2:
         if not user_services.register(username, password1):
             flash("Username has to be 3 characters or longer \
                   and password has to be 8 characters or longer")
             return redirect("/new_account")
         else:
-            flash("Account creation ws succesful, please update your profile")
+            flash("Account creation was succesful, please update your profile")
             return redirect("/profile")
     else:
         flash("Passwords do not match")
@@ -70,12 +73,15 @@ def new_drink():
 @app.route("/add_drink", methods=["POST"])
 def add_drink():
     user_services.check_token(request.form["csrf_token"])
-    drink = request.form["drink"]
-    drink_time = request.form["drink_time"]
-    if not drink_time:
-        flash("Please choose a date and time")
+    if user_services.check_profile():
+        drink = request.form["drink"]
+        drink_time = request.form["drink_time"]
+        if not drink_time:
+            flash("Please choose a date and time")
+            return redirect("/")
+        drink_services.add_drink(drink, drink_time)
         return redirect("/")
-    drink_services.add_drink(drink, drink_time)
+    flash("Please update your profile before adding drinks")
     return redirect("/")
 
 @app.route("/list_drinks")
@@ -96,9 +102,10 @@ def new_room():
             flash("Room creation was succesful")
             return redirect("/rooms")
         else:
-            flash("Room name has to be 3 characters or longer and cannot contain whitespace characters")
+            flash("Room name has to be 3 characters or longer \
+                  and cannot contain whitespace characters")
             return redirect("/rooms")
-        
+
 @app.route("/join_room", methods=["POST"])
 def join_room():
     user_services.check_token(request.form["csrf_token"])
@@ -114,7 +121,7 @@ def join_room():
     else:
         flash("Room does not exist")
         return redirect("/rooms")
-    
+
 @app.route("/rooms")
 def rooms():
     my_rooms = room_services.list_rooms()
@@ -137,7 +144,7 @@ def room(room_id):
         members_dfs.append(member_df[0])
     members_bac_df = plot_services.concatenate_dataframes(members_dfs)
     plot_services.plot_room_bac(members_bac_df, member_df[1], room_id)
-    return render_template("room.html", room_members = room_members, room_id=room_id, 
+    return render_template("room.html", room_members = room_members, room_id=room_id,
                            profile_state = profile_state)
 
 @app.route("/bac_plot")
