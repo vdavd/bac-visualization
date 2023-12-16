@@ -32,11 +32,16 @@ This project was inspired by the "blakkisvuohi" project by ultsi: https://gitlab
 - Users can view rooms that they have joined. The rooms display a plot that shows the bac curves of all room members
 - Users can input information about their age, sex, weight and height on the profile page (these are used for bac calculations)
 - Users can view their individual estimated bac curve
+- Users can view a table containing a summary of their drinks
 
 
   ## How to test the application locally
 
-* Python and postgresql are required
+* Python3 and postgresql are required
+* Clone the repository to your machine
+  ```
+  git clone https://github.com/vdavd/bac-visualization.git
+  ```
 * Create `src/.env` file
 * Set `DATABASE_URL` to the local postgresql database address
 * SET `SECRET_KEY` to a secret key
