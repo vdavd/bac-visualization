@@ -69,6 +69,7 @@ def new_drink():
 
 @app.route("/add_drink", methods=["POST"])
 def add_drink():
+    user_services.check_token(request.form["csrf_token"])
     drink = request.form["drink"]
     drink_time = request.form["drink_time"]
     if not drink_time:
@@ -85,6 +86,7 @@ def list_drinks():
 
 @app.route("/new_room", methods=["POST"])
 def new_room():
+    user_services.check_token(request.form["csrf_token"])
     room_name = request.form["new_room"]
     if room_services.check_room_name(room_name):
         flash("Room name is already taken")
@@ -99,6 +101,7 @@ def new_room():
         
 @app.route("/join_room", methods=["POST"])
 def join_room():
+    user_services.check_token(request.form["csrf_token"])
     room_name = request.form["room_to_join"]
     room_id = room_services.check_room_name(room_name)
     if room_id:
@@ -154,6 +157,7 @@ def profile():
 
 @app.route("/edit_profile", methods=["POST"])
 def edit_profile():
+    user_services.check_token(request.form["csrf_token"])
     sex = request.form["sex"]
     try:
         weight = int(request.form["weight"])

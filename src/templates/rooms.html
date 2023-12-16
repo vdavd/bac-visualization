@@ -8,12 +8,14 @@
       <p>Room name:<br>
       <input type="text" name="new_room" minlength="3" maxlength="20"></p>
       <input type="submit" value="Create room"> <br>
+      <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
       </form> <br>
       <h3>Join a room</h3>
       <form action="/join_room" method="POST">
       <p>Room name:<br>
       <input type="text" name="room_to_join"></p>
       <input type="submit" value="Join room"> <br>
+      <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
       </form> <br>
     </div>
     <div class="col-4">

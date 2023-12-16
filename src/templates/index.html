@@ -57,6 +57,7 @@
             <input type="datetime-local" name="drink_time"> <br> 
             <br>
             <input type="submit" value="Submit">
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
             </form>
             <br><br><br>
             <h2>Summary of drinks</h2> <br>
